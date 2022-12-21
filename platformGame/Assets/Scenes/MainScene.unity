@@ -778,7 +778,7 @@ GameObject:
   - component: {fileID: 532508526}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -861,6 +861,15 @@ MonoBehaviour:
   acceleration: 9
   decceleration: 9
   velPower: 1.2
+  jumpForce: 12
+  jumpCutMultiplier: 0.1
+  jumpCoyoteTime: 0.15
+  jumpBufferTime: 0.1
+  groundCheckPoint: {fileID: 532508525}
+  groundCheckSize: {x: 0.49, y: 0.03}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &542750273
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,7 +986,7 @@ GameObject:
   - component: {fileID: 592420149}
   - component: {fileID: 592420148}
   - component: {fileID: 592420147}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

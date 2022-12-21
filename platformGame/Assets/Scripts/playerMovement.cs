@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class playerMovement : MonoBehaviour
 {
+    #region variables
+
     private Rigidbody2D rig;
 
+    // movementVar
+    [Header("Move")]
     public float moveSpeed;
     public float acceleration;
     public float decceleration;
     public float velPower;
-
     private Vector2 _moveInput;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +31,11 @@ public class playerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Move();
+    }
+
+    void Move()
+    {
         // calculate the direction we want to move and the velocity we want
         float targetSpeed = _moveInput.x * moveSpeed;
         // calculate the difference between the current and the velocity we want
@@ -39,7 +48,5 @@ public class playerMovement : MonoBehaviour
         float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
 
         rig.AddForce(movement * Vector2.right);
-
-
     }
 }
