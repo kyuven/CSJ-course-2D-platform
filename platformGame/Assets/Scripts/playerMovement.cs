@@ -6,7 +6,12 @@ public class playerMovement : MonoBehaviour
 {
     private Rigidbody2D rig;
 
-    public float speed;
+    public float moveSpeed;
+    public float acceleration;
+    public float decceleration;
+    public float velPower;
+
+    private Vector2 _moveInput;
 
     // Start is called before the first frame update
     void Start()
@@ -14,22 +19,27 @@ public class playerMovement : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
     }
 
+    void Update()
+    {
+        _moveInput.x = Input.GetAxis("Horizontal");
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        Move();
-    }
+        // calculate the direction we want to move and the velocity we want
+        float targetSpeed = _moveInput.x * moveSpeed;
+        // calculate the difference between the current and the velocity we want
+        float speedDif = targetSpeed - rig.velocity.x;
+        // change the accelaration rate depending on the situation
+        // Mathf.Abs -- return the value what we want, this case, target speed
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : decceleration;
+        // Mathf.Pow -- first number high the second number (elevado)
+        // Mathf.Sign -- return the "sign" of the number, if it's positive or negative
+        float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
 
-    void Move()
-    {
-        float movement = Input.GetAxis("Horizontal");
+        rig.AddForce(movement * Vector2.right);
 
-        rig.velocity = new Vector2(movement * speed, rig.velocity.y);
-        if(movement > 0){
-            transform.eulerAngles =  new Vector3(0,0,0);
-        }
-        else if(movement < 0){
-            transform.eulerAngles = new Vector3(0,180,0);
-        }
+
     }
 }
