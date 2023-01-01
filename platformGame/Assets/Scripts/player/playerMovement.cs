@@ -15,6 +15,11 @@ public class playerMovement : MonoBehaviour
     public float decceleration;
     public float velPower;
     private Vector2 _moveInput;
+
+    // jumpVar
+    [Header("Jump")]
+    public float jumpPower;
+    bool isJumping;
     #endregion
 
     // Start is called before the first frame update
@@ -25,6 +30,7 @@ public class playerMovement : MonoBehaviour
 
     void Update()
     {
+        // _moveInput.x recebe o comando de movimentação Horizontal
         _moveInput.x = Input.GetAxis("Horizontal");
     }
 
@@ -32,6 +38,7 @@ public class playerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        Jump();
     }
 
     void Move()
@@ -48,5 +55,23 @@ public class playerMovement : MonoBehaviour
         float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
 
         rig.AddForce(movement * Vector2.right);
+        if(_moveInput.x > 0)
+            transform.eulerAngles = new Vector3(0, 0 , 0);
+        if(_moveInput.x < 0)
+            transform.eulerAngles = new Vector3(0, 180, 0);
+    }
+
+    void Jump()
+    {   
+        if(Input.GetButtonDown("Jump") && !isJumping){
+            rig.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            isJumping = true;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if(coll.gameObject.layer == 6)
+            isJumping = false;
     }
 }
