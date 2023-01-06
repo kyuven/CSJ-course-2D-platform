@@ -6,7 +6,7 @@ public class playerMovement : MonoBehaviour
 {
     #region variables
 
-    private Rigidbody2D rig;
+    [SerializeField] private Rigidbody2D rig;
 
     // movementVar
     [Header("Move")]
@@ -20,6 +20,9 @@ public class playerMovement : MonoBehaviour
     [Header("Jump")]
     public float jumpPower;
     bool isJumping;
+
+    [Header("Aniamtion")]
+    [SerializeField] private Animator anim;
     #endregion
 
     // Start is called before the first frame update
@@ -55,15 +58,22 @@ public class playerMovement : MonoBehaviour
         float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
 
         rig.AddForce(movement * Vector2.right);
-        if(_moveInput.x > 0)
+        if(_moveInput.x > 0 && !isJumping){
             transform.eulerAngles = new Vector3(0, 0 , 0);
-        if(_moveInput.x < 0)
+            anim.SetInteger("Transition", 1);
+        }
+        else if(_moveInput.x < 0 && !isJumping){
             transform.eulerAngles = new Vector3(0, 180, 0);
+            anim.SetInteger("Transition", 1);
+        }
+        else if(_moveInput.x == 0 && !isJumping)
+            anim.SetInteger("Transition", 0);
     }
 
     void Jump()
     {   
         if(Input.GetButtonDown("Jump") && !isJumping){
+            anim.SetInteger("Transition", 2);
             rig.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             isJumping = true;
         }

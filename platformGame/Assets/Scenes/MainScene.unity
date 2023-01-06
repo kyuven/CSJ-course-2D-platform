@@ -1042,8 +1042,8 @@ GameObject:
   m_Component:
   - component: {fileID: 532508525}
   - component: {fileID: 532508527}
-  - component: {fileID: 532508526}
   - component: {fileID: 532508528}
+  - component: {fileID: 532508526}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1066,8 +1066,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &532508526
-CircleCollider2D:
+--- !u!70 &532508526
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1079,9 +1079,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0055860877, y: -0.22064924}
-  serializedVersion: 2
-  m_Radius: 0.22907591
+  m_Offset: {x: -0.000000029802322, y: -0.027342558}
+  m_Size: {x: 0.5312486, y: 0.84375715}
+  m_Direction: 0
 --- !u!50 &532508527
 Rigidbody2D:
   serializedVersion: 4
