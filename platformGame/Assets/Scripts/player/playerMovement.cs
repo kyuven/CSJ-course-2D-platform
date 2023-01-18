@@ -19,7 +19,12 @@ public class playerMovement : MonoBehaviour
     // jumpVar
     [Header("Jump")]
     public float jumpPower;
-    bool isJumping;
+    private bool isJumping;
+
+    [Header("Atk")]
+    private float radius = 0.2f;
+    private bool isAttacking;
+    [SerializeField] private Transform atkPoint;
 
     [Header("Aniamtion")]
     [SerializeField] private Animator anim;
@@ -42,6 +47,7 @@ public class playerMovement : MonoBehaviour
     {
         Move();
         Jump();
+        Attack();
     }
 
     void Move()
@@ -66,7 +72,7 @@ public class playerMovement : MonoBehaviour
             transform.eulerAngles = new Vector3(0, 180, 0);
             anim.SetInteger("Transition", 1);
         }
-        else if(_moveInput.x == 0 && !isJumping)
+        else if(_moveInput.x == 0 && !isJumping && !isAttacking)
             anim.SetInteger("Transition", 0);
     }
 
@@ -79,9 +85,29 @@ public class playerMovement : MonoBehaviour
         }
     }
 
+    void Attack()
+    {
+        if(Input.GetButtonDown("Fire1")){
+            isAttacking = true;
+            anim.SetInteger("Transition", 3);
+            Collider2D hit = Physics2D.OverlapCircle(atkPoint.position, radius);
+
+            if(hit != null)
+                Debug.Log(hit.name);
+
+            StartCoroutine(OnAttack());
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         if(coll.gameObject.layer == 6)
             isJumping = false;
+    }
+
+    IEnumerator OnAttack()
+    {
+        yield return new WaitForSeconds(0.286f);
+        isAttacking = false;
     }
 }
