@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5844218574514657240}
   - component: {fileID: 5844218574514657242}
   - component: {fileID: 8390977547480842090}
+  - component: {fileID: 5174617526073666276}
   m_Layer: 0
   m_Name: Worm
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5844218574514657241}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.097605, y: 3.147, z: 0}
-  m_LocalScale: {x: 1.6366, y: 1.6366, z: 1.6366}
+  m_LocalScale: {x: 2.442462, y: 2.442462, z: 2.442462}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -113,10 +114,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0013503358, y: -0.028356355}
+  m_Offset: {x: 0.0013503432, y: -0.04249052}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -127,5 +128,19 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.43788612, y: 0.12037151}
+  m_Size: {x: 0.43788612, y: 0.14863986}
   m_EdgeRadius: 0
+--- !u!114 &5174617526073666276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5844218574514657241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b038d231fe999b64eb7c454a76b08ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 0
+  rig: {fileID: 0}

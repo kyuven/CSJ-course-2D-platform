@@ -64,11 +64,11 @@ public class playerMovement : MonoBehaviour
         float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
 
         rig.AddForce(movement * Vector2.right);
-        if(_moveInput.x > 0 && !isJumping){
+        if(_moveInput.x > 0 && !isJumping && !isAttacking){
             transform.eulerAngles = new Vector3(0, 0 , 0);
             anim.SetInteger("Transition", 1);
         }
-        else if(_moveInput.x < 0 && !isJumping){
+        else if(_moveInput.x < 0 && !isJumping && !isAttacking){
             transform.eulerAngles = new Vector3(0, 180, 0);
             anim.SetInteger("Transition", 1);
         }
