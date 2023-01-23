@@ -5,8 +5,10 @@ using UnityEngine;
 public class WormEnemy : MonoBehaviour
 {
     private float walkSpeed = .2f;
+    private int health = 5;
 
     [SerializeField] Rigidbody2D rig;
+    [SerializeField] Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,19 @@ public class WormEnemy : MonoBehaviour
         rig.velocity = new Vector2(walkSpeed, rig.velocity.y);
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
+    public void OnHit()
+    {
+        anim.SetTrigger("Hit");
+        health--;
+
+        if(health <= 0){
+            anim.SetTrigger("Death");
+            Destroy(gameObject, 1f);
+            walkSpeed = 0;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D coll)
     {
         if(coll.gameObject.layer == 7)
             walkSpeed = -walkSpeed;

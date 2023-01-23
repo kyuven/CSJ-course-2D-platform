@@ -21,10 +21,15 @@ public class playerMovement : MonoBehaviour
     public float jumpPower;
     private bool isJumping;
 
-    [Header("Atk")]
+    // atckVar
+    [Header("Atack")]
     private float radius = 0.2f;
     private bool isAttacking;
+    [SerializeField] LayerMask enemyLayer;
     [SerializeField] private Transform atkPoint;
+
+    // healthVar
+    private float health = 10;
 
     [Header("Aniamtion")]
     [SerializeField] private Animator anim;
@@ -90,13 +95,19 @@ public class playerMovement : MonoBehaviour
         if(Input.GetButtonDown("Fire1")){
             isAttacking = true;
             anim.SetInteger("Transition", 3);
-            Collider2D hit = Physics2D.OverlapCircle(atkPoint.position, radius);
+            Collider2D hit = Physics2D.OverlapCircle(atkPoint.position, radius, enemyLayer);
 
             if(hit != null)
-                Debug.Log(hit.name);
+                hit.GetComponent<WormEnemy>().OnHit();
 
             StartCoroutine(OnAttack());
         }
+    }
+
+    IEnumerator OnAttack()
+    {
+        yield return new WaitForSeconds(0.286f);
+        isAttacking = false;
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -105,9 +116,20 @@ public class playerMovement : MonoBehaviour
             isJumping = false;
     }
 
-    IEnumerator OnAttack()
+    void Damage()
     {
-        yield return new WaitForSeconds(0.286f);
-        isAttacking = false;
+        anim.SetTrigger("Hit");
+        //Damage per enemy
+        health--;
+
+        if(health <= 0)
+            // GameOver Screen
+            anim.SetTrigger("Death");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {              
+        if(collision.gameObject.layer == 8)
+            Damage();
     }
 }
