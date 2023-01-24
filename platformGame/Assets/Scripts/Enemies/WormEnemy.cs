@@ -5,7 +5,7 @@ using UnityEngine;
 public class WormEnemy : MonoBehaviour
 {
     private float walkSpeed = .2f;
-    private int health = 5;
+    private int healthWorm = 5;
 
     [SerializeField] Rigidbody2D rig;
     [SerializeField] Animator anim;
@@ -30,9 +30,9 @@ public class WormEnemy : MonoBehaviour
     public void OnHit()
     {
         anim.SetTrigger("Hit");
-        health--;
+        healthWorm--;
 
-        if(health <= 0){
+        if(healthWorm <= 0){
             anim.SetTrigger("Death");
             Destroy(gameObject, 1f);
             walkSpeed = 0;

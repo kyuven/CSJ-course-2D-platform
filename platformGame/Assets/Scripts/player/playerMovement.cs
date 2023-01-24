@@ -110,9 +110,9 @@ public class playerMovement : MonoBehaviour
         isAttacking = false;
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
+    void OnCollisionEnter2D(Collision2D collider)
     {
-        if(coll.gameObject.layer == 6)
+        if(collider.gameObject.layer == 6)
             isJumping = false;
     }
 
