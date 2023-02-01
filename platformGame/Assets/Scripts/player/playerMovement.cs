@@ -29,7 +29,8 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private Transform atkPoint;
 
     // healthVar
-    private float health = 10;
+    public float health = 10;
+    public static playerMovement instance;
 
     [Header("Aniamtion")]
     [SerializeField] private Animator anim;
@@ -38,6 +39,7 @@ public class playerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
         rig = GetComponent<Rigidbody2D>();
     }
 
@@ -116,11 +118,9 @@ public class playerMovement : MonoBehaviour
             isJumping = false;
     }
 
-    void Damage()
+    public void Damage()
     {
         anim.SetTrigger("Hit");
-        //Damage per enemy
-        health--;
 
         if(health <= 0)
             // GameOver Screen
