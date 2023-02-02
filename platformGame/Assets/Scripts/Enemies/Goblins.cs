@@ -9,11 +9,10 @@ public class Goblins : MonoBehaviour
     private float maxVision = 8.3f;
     private float playerDis = .7f;
 
-    private bool isRight = true;
+    private bool isRight;
     private bool isFront;
 
     private float timeAtk = .9f;
-    private bool isGoblinAttacking;
     private float currentTimeAtk = .7f;
     private float atkDamage = 1.3f;
 
@@ -21,6 +20,7 @@ public class Goblins : MonoBehaviour
 
     [SerializeField] Rigidbody2D rig;
     [SerializeField] Transform rayPos;
+    [SerializeField] Transform rayBackPos;
     [SerializeField] Animator anim;
 
     // Start is called before the first frame update
@@ -53,17 +53,16 @@ public class Goblins : MonoBehaviour
     void Move()
     {
         if(isFront){
+            anim.SetInteger("Transition", 2);
             if(isRight){
                 transform.eulerAngles = new Vector2(0, 0);
                 direction =  Vector2.right;
                 rig.velocity = new Vector2(goblinSpeed, rig.velocity.y);
-                anim.SetInteger("Transition", 2);
             }
             else{
                 transform.eulerAngles = new Vector2(0, 180);
                 direction = Vector2.left;
                 rig.velocity = new Vector2(-goblinSpeed, rig.velocity.y);
-                anim.SetInteger("Transition", 2);
             }
         }
     }
@@ -74,7 +73,6 @@ public class Goblins : MonoBehaviour
         if(hit.collider != null){
             if(hit.transform.CompareTag("Player")){
                 isFront = true;
-                isGoblinAttacking = false;
                 // Return the difference btw the goblin and player
                 float distance = Vector2.Distance(transform.position, hit.transform.position);
 
@@ -82,30 +80,33 @@ public class Goblins : MonoBehaviour
                     isFront = false;
                     rig.velocity = Vector2.zero;
                     currentTimeAtk += Time.deltaTime;
-                    anim.SetInteger("Transition", 0);
+                    anim.SetInteger("Transition", 1);
 
                     if(currentTimeAtk >= timeAtk){
                         hit.transform.GetComponent<playerMovement>().Damage();
                         playerMovement.instance.health = playerMovement.instance.health - atkDamage;
                         currentTimeAtk = 0;
-
-                        anim.SetInteger("Transition", 1);
-                        isGoblinAttacking = true;
-                        StartCoroutine(OnGoblinAttack());
+                        anim.SetInteger("Transition", 0);
                     }
                 }
             }
         }
+
+        RaycastHit2D backHit = Physics2D.Raycast(rayBackPos.position, -direction, maxVision);
+        if(backHit.collider != null){
+            if(backHit.transform.CompareTag("Player")){
+                isRight = !isRight;
+            }
+        }
     }
 
-    IEnumerator OnGoblinAttack()
+    void OnDrawGizmosSelected()
     {
-        yield return new WaitForSeconds(0.572f);
-        isGoblinAttacking = false;
+        Gizmos.DrawRay(rayPos.position, direction * maxVision);
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(rayPos.position, direction * maxVision);
+        Gizmos.DrawRay(rayBackPos.position, -direction * maxVision);
     }
 }
